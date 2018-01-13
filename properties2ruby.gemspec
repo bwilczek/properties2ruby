@@ -8,8 +8,9 @@ Gem::Specification.new do |s|
   s.email        = 'bwilczek@gmail.com'
   s.files        = Dir['lib/**/*.rb']
   s.require_path = 'lib'
-  s.homepage     = 'https://github.com/bwilczek/radagast'
+  s.homepage     = 'https://github.com/bwilczek/properties2ruby'
   s.license      = 'MIT'
   s.required_ruby_version = '~> 2.2'
+  s.add_dependency 'activesupport', '~> 4.0'
   s.add_development_dependency 'rspec', '~> 3.7'
 end
