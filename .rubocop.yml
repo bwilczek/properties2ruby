@@ -2,3 +2,5 @@ AllCops:
   TargetRubyVersion: 2.2
 Documentation:
   Enabled: false
+Metrics/BlockLength:
+  ExcludedMethods: ['describe', 'context']
