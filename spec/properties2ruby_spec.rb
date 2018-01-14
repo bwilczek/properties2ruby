@@ -56,4 +56,14 @@ RSpec.describe Properties2Ruby do
       end
     end
   end
+
+  describe '#try_convert_hash_to_array' do
+    it 'converts hash when possible' do
+      expect(Properties2Ruby.send(:try_convert_hash_to_array, {:'0' => 123})).to eq [123]
+    end
+
+    it 'leaves hash as it was when impossible' do
+      expect(Properties2Ruby.send(:try_convert_hash_to_array, {a: 123})).to eq(a: 123)
+    end
+  end
 end
