@@ -10,7 +10,7 @@ module Properties2Ruby
       raw_hash.each_pair do |key, value|
         ret.deep_merge! process_line(key, value)
       end
-      try_convert_hash_to_array(ret)
+      fix_nested_array_hashes(ret)
     end
 
     def generate(hash)
@@ -28,21 +28,19 @@ module Properties2Ruby
       end
     end
 
-    def try_convert_hash_to_array(hash)
-      puts "BW try_convert_hash_to_array"
+    ##
+    # Recursicely converts hashes like { :'0' => 1, :'1' => 2 } to array [1, 2]
+    def fix_nested_array_hashes(obj)
+      return obj unless obj.is_a? Hash
       begin
         ret = []
-        hash.keys.map(&:to_s).map { |k| Integer(k) }.each do |i|
-          val = hash[i.to_s.to_sym]
-          puts val
-          puts val.is_a?(Hash)
-          ret[i] = val.is_a?(Hash) ? try_convert_hash_to_array(val) : val
+        obj.keys.map(&:to_s).map { |k| Integer(k) }.each do |i|
+          val = obj[i.to_s.to_sym]
+          ret[i] = val.is_a?(Hash) ? fix_nested_array_hashes(val) : val
         end
         return ret
-      rescue Exception => e
-        puts e.message
-        # TODO: process values from this hash as well
-        return hash
+      rescue ArgumentError # from Integer(k)
+        return obj.each { |k, v| obj.merge!(k => fix_nested_array_hashes(v)) }
       end
     end
 

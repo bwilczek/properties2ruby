@@ -55,15 +55,21 @@ RSpec.describe Properties2Ruby do
         expect(Properties2Ruby.parse("a.b.c=123\na.b.d=456")).to eq(a: { b: { c: 123, d: 456 } })
       end
     end
+
+    it 'mixed arrays and hashes' do
+      [
+        { in: "a.0.x=1\na.0.y=2", out: { a: [{ x: 1, y: 2 }] } }
+      ].each { |pair| expect(Properties2Ruby.parse(pair[:in])).to eq pair[:out] }
+    end
   end
 
-  describe '#try_convert_hash_to_array' do
+  describe '#fix_nested_array_hashes' do
     it 'converts hash when possible' do
-      expect(Properties2Ruby.send(:try_convert_hash_to_array, {:'0' => 123})).to eq [123]
+      expect(Properties2Ruby.send(:fix_nested_array_hashes, '0': 123)).to eq [123]
     end
 
     it 'leaves hash as it was when impossible' do
-      expect(Properties2Ruby.send(:try_convert_hash_to_array, {a: 123})).to eq(a: 123)
+      expect(Properties2Ruby.send(:fix_nested_array_hashes, a: 123)).to eq(a: 123)
     end
   end
 end
