@@ -1,6 +1,6 @@
 require 'properties2ruby'
 
-RSpec.describe Properties2Ruby do
+RSpec.describe Properties2Ruby::Parser do
   describe '#parse' do
     describe 'a scalar' do
       it 'String' do
