@@ -15,6 +15,14 @@ RSpec.describe Properties2Ruby do
         expect(Properties2Ruby.parse(spec[:text])).to eq spec[:ruby]
       end
     end
+
+    it 'ignores blank lines' do
+      expect(Properties2Ruby.parse("\na=1\n")).to eq(a: 1)
+    end
+
+    it 'ignores comments lines' do
+      expect(Properties2Ruby.parse("# comment\na=1\n")).to eq(a: 1)
+    end
   end
 
   describe '#fix_nested_array_hashes' do
