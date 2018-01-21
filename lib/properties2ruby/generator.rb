@@ -1,9 +1,16 @@
 module Properties2Ruby
   module Generator
-    def generate(hash)
+    def generate(hash, prefix = '')
       ret = ''
       hash.each_pair do |k, v|
-        ret << "#{k}=#{v}\n" if v.is_a? String
+        ret << case v
+               when Hash
+                 generate(v, prefix + k.to_s + '.')
+               when Array
+                 'No support for Array yet'
+               else
+                 "#{prefix}#{k}=#{v}\n"
+               end
       end
       ret
     end

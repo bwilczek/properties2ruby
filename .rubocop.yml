@@ -6,3 +6,5 @@ Metrics/BlockLength:
   ExcludedMethods: ['describe', 'context']
 Metrics/MethodLength:
   Max: 15
+Style/TrailingCommaInLiteral:
+  Enabled: false
