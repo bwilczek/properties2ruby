@@ -1,13 +1,12 @@
 module Properties2Ruby
   module Generator
-    def generate(hash, prefix = '')
+    def generate(val, prefix = '')
       ret = ''
-      hash.each_pair do |k, v|
-        ret << case v
-               when Hash
+      val.each_with_index do |v, k|
+        # a hack for each_with_index. It behaves differently for Hash and Array
+        k, v = v if val.is_a?(Hash)
+        ret << if v.is_a?(Enumerable)
                  generate(v, prefix + k.to_s + '.')
-               when Array
-                 'No support for Array yet'
                else
                  "#{prefix}#{k}=#{v}\n"
                end
